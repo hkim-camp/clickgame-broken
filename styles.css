@@ -1,0 +1,142 @@
+:root {
+    --widget-width: 150px;
+    --widget-height: 150px;
+}
+
+body {
+    --gompei-count: 1;
+    background-color: rgb(0, 39, 0);
+    color: white;
+}
+
+#store-container {
+    border: 5px solid white;
+    width: 100%;
+    display: flex;
+    /* flex-direction: row; */
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+#widget-container {
+    border: 5px solid white;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#super-gompei {
+    filter: hue-rotate(180deg) sepia(calc(var(--gompei-count) * 10%)) saturate(calc(clamp(0, var(--gompei-count), 10) * 40% + 100%));
+    transform: rotateX(180deg);
+    /* filter: sepia(calc(--gompei-count * 0.05)) */
+}
+
+.store {
+    background-color: aqua;
+    text-align: center;
+    cursor: pointer;
+    color: black;
+    position: relative;
+}
+
+.store p {
+    margin: 2px;
+    position: relative;
+}
+
+.widget {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: var(--widget-width);
+    height: var(--widget-height);
+    margin: 5px;
+
+    cursor: pointer;
+
+    overflow: hidden;
+    color: white;
+    position: relative;
+}
+
+.store[broke] {
+    filter: brightness(0.25);
+}
+
+.widget[harvesting] {
+    filter: brightness(.5)
+}
+
+/* If the widget is an automatic widget */
+.widget[auto="true"] {
+    background-color: green;
+    border: 3px solid black;
+}
+
+/* If the widget is a click widget */
+.widget:not([auto="true"]) {
+    background-color: limegreen;
+    border: 3px solid white;
+}
+
+/* Widget with image */
+.widget img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.widget[harvesting] .overlay-slide {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+
+    animation-name: uncover;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.widget:not([harvesting]) .overlay-slide {
+    display: none;
+}
+
+/* Floating point indicator */
+.point {
+    position: absolute;
+    transform-origin: center;
+    color: aqua;
+    animation-name: point-float;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    left: 50%;
+    top: 50%;
+}
+
+.center {
+    text-align: center;
+}
+
+
+@keyframes point-float {
+    100% {
+        opacity: 0%;
+        transform: translateY(-50px);
+    }
+}
+
+@keyframes uncover {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}
