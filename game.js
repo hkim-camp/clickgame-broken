@@ -24,10 +24,18 @@ function changeScore(amount) {
 function buy(store) {
     const cost = parseInt(store.getAttribute("cost"));
 
+
+    if (score < cost) {
+        return
+    }
+
+    changeScore(-cost)
     // check available to buy
     // change score
 
     if (store.getAttribute("name") === "Super-Gompei") {
+        super_gompei_count += 1;
+        document.body.style = "--gompei-count: " + super_gompei_count + ";";
         const super_gompei = document.querySelector("#widget-container #super-gompei")?.parentElement;
         // If Super-Gompei already exists
         if (super_gompei) {
@@ -36,8 +44,21 @@ function buy(store) {
         }
     }
 
-    super_gompei_count += 1;
-    document.body.style = "--gompei-count: " + super_gompei_count + ";"
+    if (store.getAttribute("name") === "Lawn Mower") {
+        setInterval(() => {
+            // Find all the manual-click widgets ("lawn plots")
+            for (const widget of widget_container.children) {
+                // It must be a manual widget, so no 'auto' attribute
+                // and we'll assume "lawn plots" are not Super-Gompeis
+                if (widget.getAttribute("auto") !== 'true' && !widget.querySelector("#super-gompei")) {
+                    harvest(widget);
+                }
+            }
+        }, 1000); // Clicks every second
+        // This is a one-time purchase, so remove the store item
+        store.remove();
+        return;
+    }
 
     // clone node for widget, and add to container
     const widget = store.firstElementChild.cloneNode(true);
@@ -81,10 +102,10 @@ function showPoint(widget) {
     let number = document.createElement("span");
     number.className = "point";
     number.innerHTML = "+" + widget.getAttribute("reap");
-    // number.onanimationend = () => {
-    //     number.removeChild(widget);
-    // }
     widget.appendChild(number);
+    number.onanimationend = () => {
+        number.remove();
+    }
 }
 
 changeScore(0);
