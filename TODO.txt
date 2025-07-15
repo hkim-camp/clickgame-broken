@@ -1,0 +1,5 @@
+1. Lawn widget doesnt have the cooldown animation. fix
+
+2. refactor code. make it consistand and get the div creation stuff moved to css if it can be done.
+
+3. css should use a better way of handling sizes.
